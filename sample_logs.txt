@@ -1,0 +1,24 @@
+---
+
+### 2. `sample_logs.txt`
+```text
+2025-08-12T09:14:01Z auth[1123]: Failed password for invalid user admin from 203.0.113.5 port 56422 ssh2
+2025-08-12T09:14:03Z auth[1123]: Failed password for root from 203.0.113.5 port 56422 ssh2
+2025-08-12T09:14:07Z auth[1123]: Failed password for root from 104.16.99.52 port 42311 ssh2
+2025-08-12T09:14:12Z auth[1123]: Failed password for root from 203.0.113.5 port 56422 ssh2
+2025-08-12T09:16:40Z web[8842]: GET /admin/ HTTP/1.1 from 185.199.108.153
+2025-08-12T09:18:05Z dnsmasq[221]: query[A] api.example.com from 192.168.1.50
+2025-08-12T09:18:06Z dnsmasq[221]: forwarded api.example.com to 8.8.8.8
+2025-08-12T09:18:12Z kernel: DROP IN=eth0 OUT= MAC= SRC=51.143.12.22 DST=10.0.0.1 LEN=60
+2025-08-12T09:18:17Z web[8842]: GET /login HTTP/1.1 from 104.16.99.52
+2025-08-12T09:20:33Z auth[1123]: Accepted publickey for deploy from 172.16.0.10 port 55112 ssh2
+2025-08-12T09:22:54Z proxy[221]: CONNECT github.com:443 via 104.16.99.52
+2025-08-12T09:23:10Z app[6621]: External callback from 203.0.113.5 id=ab12 path=/notify
+2025-08-12T09:23:11Z web[8842]: GET /assets/app.js HTTP/1.1 from 185.199.108.153
+2025-08-12T09:24:01Z auth[1123]: Failed password for root from 51.143.12.22 port 33771 ssh2
+2025-08-12T09:25:22Z web[8842]: GET / HTTP/1.1 from 185.199.108.153
+2025-08-12T09:26:11Z systemd[1]: Started backup job from 10.0.0.1
+2025-08-12T09:27:45Z vpn[5511]: Peer connected from [104.16.99.52]:51820
+2025-08-12T09:28:12Z ids[300]: Alert: Possible brute force from [203.0.113.5]
+2025-08-12T09:28:12Z ids[300]: Alert: Possible brute force from [203.0.113.5]
+2025-08-12T09:29:01Z cron[22]: Job finished successfully
