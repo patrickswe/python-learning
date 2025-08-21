@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Lesson 1 — IP Extractor (starter)
 # Fill in the TODOs. Keep the code readable and function-based.
 
@@ -7,38 +7,43 @@ import re
 import csv
 from collections import Counter
 from typing import List, Tuple
+import ipaddress
 
 # A simple (loose) IPv4 regex.
 IPV4_REGEX = r"\b(?:\d{1,3}\.){3}\d{1,3}\b"
 
+def is_public_ip(ip: str) -> bool:
+    try: 
+        return ipaddress.ip_address(ip).is_global
+    except ValueError:
+        return False
 
 def extract_ips(text: str) -> List[str]:
     # Return a list of IPv4-like strings found in text.
     # TODO: Use re.findall with IPV4_REGEX
-    ips = re.findall(IPV4_REGEX, text)
-    return ips
-
+    return re.findall(IPV4_REGEX, text)
 
 def count_ips(ips: List[str]) -> List[Tuple[str, int]]:
     # Return a list of (ip, count) sorted by count desc, then ip asc.
     # TODO: Use Counter, then sort
-    return sorted(counter.ips, key = lambda x: (-x[1], x[0]))
+    cnts = Counter(ips)
+    return sorted(cnts.items(), key = lambda x: (-x[1], x[0]))
 
 
 def write_csv(rows: List[Tuple[str, int]], out_path: str) -> None:
     # Write rows to CSV with headers ip,count
     # TODO: Use csv.writer
-    with open("ips.csv", 'w') as f:
+    with open(out_path, 'w', newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        for row in rows:
-            w.writerow(row)
+        w.writerow(["ip", "count"])
+        w.writerows(rows)
 
 
 def print_top_n(rows: List[Tuple[str, int]], n: int = 5) -> None:
     # Print the top N in the format '1) 203.0.113.5 — 18'
     # TODO: simple enumerate print
-    for num, row in enumerate(rows):
-        print("{num}\) {row[0]} - {row[1]}")
+    for i, (ip,count) in enumerate(rows[:n], start=1):
+        print(f"{i}) {ip} - {count}")
 
 
 def main(argv: List[str]) -> int:
@@ -50,17 +55,18 @@ def main(argv: List[str]) -> int:
 
     # TODO: read the input file into a single string named data
     data = ""
-    with open("sample_logs.txt", 'r', encoding = "utf-8") as f:
+    with open(in_path, 'r', encoding = "utf-8") as f:
         data = f.read()
 
     # TODO: call extract_ips(data) -> ips
-    ips = extract_ips(data)
+    ips = [ip for ip in extract_ips(data) if is_public_ip(ip)]
 
     # TODO: call count_ips(ips) -> rows
     rows = count_ips(ips)
 
-    # TODO: write_csv(rows, out_path)
-    # TODO: print_top_n(rows, 5)
+    write_csv(rows, out_path)
+
+    print_top_n(rows, 5)
 
     return 0
 
