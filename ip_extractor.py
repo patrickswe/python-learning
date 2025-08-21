@@ -12,6 +12,9 @@ import ipaddress
 # A simple (loose) IPv4 regex.
 IPV4_REGEX = r"\b(?:\d{1,3}\.){3}\d{1,3}\b"
 
+def detect_suspicious(rows, threshold=100):
+    return [row for row in rows if row[1] >= threshold]
+
 def is_public_ip(ip: str) -> bool:
     try: 
         return ipaddress.ip_address(ip).is_global
@@ -67,6 +70,14 @@ def main(argv: List[str]) -> int:
     write_csv(rows, out_path)
 
     print_top_n(rows, 5)
+
+    suspicious = detect_suspicious(rows, 4)
+    if suspicious:
+        print(f"\n ⚠️  Suspicious IPs detected:")
+        for ip, count in suspicious:
+            print(f"{ip} - {count} requests")
+    else:
+        print("\nNo suspicious activity detected.")
 
     return 0
 
